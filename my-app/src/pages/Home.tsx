@@ -1,4 +1,5 @@
 import React from "react";
+import Geolocation from '../components/Geolocation';
 
 const Home = () => {
   return (
@@ -9,7 +10,10 @@ const Home = () => {
         <p>Logo</p>
         <h1>Local Travel & Weather Dashboard</h1>
       </div>
-      <div>SEARCH BOX COMPONENT</div>
+      <div className="section-one"><Geolocation /></div>
+
+
+
 
       {/* Section 2 - TRANSPORT DEPARTURES and LOCAL WEATHER COMPONENTS */}
       <div className="section-two">
