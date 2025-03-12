@@ -1,31 +1,50 @@
 import { create } from "zustand";
 
+interface WeatherData {
+  name: string;
+  main: {
+    temp: number;
+  };
+  weather: { description: string; icon: string }[];
+}
+
 interface WeatherState {
-  weather: any | null;
+  weather: WeatherData | null;
   loading: boolean;
   error: string | null;
-  fetchWeather: (lat: number, lon: number) => Promise<void>;
+  fetchWeather: (lat: number, lon: number) => Promise<void>;  
 }
 
 export const useWeatherStore = create<WeatherState>((set) => ({
   weather: null,
   loading: false,
   error: null,
-  fetchWeather: async (lat, lon) => {
+
+  fetchWeather: async (lat: number, lon: number) => {  
     set({ loading: true, error: null });
-    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY; 
+
+    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+    console.log("🔑 Loaded API Key:", API_KEY);
+
+    const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+    const API_URL = `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
+    console.log("Fetching from:", API_URL);
+
     try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`
-      );
-      const data = await res.json();
-      if (res.ok) {
-        set({ weather: data, loading: false });
-      } else {
-        set({ error: data.message, loading: false });
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status} - ${response.statusText}`);
       }
-    } catch (err) {
-      set({ error: "Failed to fetch weather", loading: false });
+
+      const data = await response.json();
+      console.log("Weather API Response:", data);
+
+      set({ weather: data, loading: false });
+    } catch (error: any) {
+      console.error("Fetch error:", error);
+      set({ error: error.message, loading: false });
     }
   },
 }));
