@@ -1,1 +1,7 @@
-// Not a real button
+import React from 'react';
+
+export default function Button() {
+  return <button>Click me!</button>;
+}
+
+
