@@ -21,7 +21,6 @@ const [lon, setLon] = useState<number | undefined>(undefined);
       }
     );
   };
-
   return (
     <div className={styles.main}>
       <div className={styles.sectionOne}>
