@@ -1,6 +1,6 @@
 # Local-Travel-And-Weather-Dashboard
 
-#Setup 🚀
+# Setup 🚀
 
 - clone repository: https://github.com/IdacJohansson/Local-Travel-And-Weather-Dashboard.git
 
@@ -16,7 +16,7 @@
 
 # Log 📖
 
-#### Project setup: 6 mars 🚧
+#### Project setup: week 10 🚧
 
 **Add**: Project setup with cleanup, updates in /home to structure components.
 
@@ -25,7 +25,7 @@ react-router-dom
 
 **Comments**:
 
-#### Updates: 10 mars 🚧
+#### Updates: Week 11 🚧
 
 **Add**: Server-folder, Express + nodemon.
 
@@ -38,5 +38,7 @@ express
 nodemon
 cors
 axios
+zustand
+dotenv
 
 **Comments**:

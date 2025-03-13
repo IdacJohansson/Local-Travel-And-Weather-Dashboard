@@ -1,4 +1,5 @@
 import React from "react";
+import TrafficUpdates from "../components/TrafficUpdates";
 
 const Home = () => {
   return (
@@ -20,7 +21,7 @@ const Home = () => {
       {/* Section 3 - OPTIONAL and TRAFFIC UPDATES COMPONENTS */}
       <div className="section-three">
         <div>OPTIONAL COMPONENT</div>
-        <div>TRAFFIC UPDATES COMPONENT</div>
+        <TrafficUpdates title="TRAFFIC UPDATES" />
       </div>
     </div>
   );
