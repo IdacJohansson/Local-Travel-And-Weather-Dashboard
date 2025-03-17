@@ -4,7 +4,7 @@ import SearchBox from "../components/SearchBox/SearchBox";
 import TransportDepartures from "../components/TransportDepartures/TransportDepartures";
 import TrafficUpdates from "../components/TrafficUpdates/TrafficUpdates";
 import styles from "./Home.module.css";
-
+import GetGeolocation from "../components/GetGeolocation/Geolocation";
 
 const Home: React.FC = () => {
   const [lat, setLat] = useState<number | undefined>(undefined);
@@ -27,6 +27,7 @@ const [lon, setLon] = useState<number | undefined>(undefined);
         <p>Logo</p>
         <h1>Local Travel & Weather Dashboard</h1>
       </div>
+      <GetGeolocation />
       <SearchBox />
       <button onClick={handleLocation}>Get Weather</button>
 
