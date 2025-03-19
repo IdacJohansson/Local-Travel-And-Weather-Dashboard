@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useWeatherStore } from "../../store/weatherStore";
+import { useWeatherStore } from "./weatherStore";
 import styles from "./weather.module.css"; 
 
 console.log("API Key:", process.env.REACT_APP_WEATHER_API_KEY);
