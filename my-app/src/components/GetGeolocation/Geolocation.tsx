@@ -1,9 +1,16 @@
 import { useState, useRef } from 'react';
+import { useWeatherStore } from "../Weather/weatherStore";
+
 
 const GeolocationApp: React.FC = () => {
+  const { fetchWeather } = useWeatherStore();
+
+
   const [location, setLocation] = useState<string>('');
  const [address, setAddress] = useState<string>('');
  const inputRef = useRef<HTMLInputElement>(null);
+
+
  const getLocation = async () => {
   if (address.trim() === '') {
  if (navigator.geolocation) {
@@ -11,7 +18,10 @@ const GeolocationApp: React.FC = () => {
   (position) => {
  const latitude = position.coords.latitude;
  const longitude = position.coords.longitude;
+
+
  setLocation(`Latitude: ${latitude}, Longitude: ${longitude}`);
+ fetchWeather(latitude, longitude);
   },
   () => {
  setLocation('Unable to retrieve location.');
@@ -28,11 +38,15 @@ const GeolocationApp: React.FC = () => {
  )}`
   );
   const data = await response.json();
+
+
  if (data.length > 0) {
 const { lat, lon } = data[0];
 setLocation(
 `Your Location is ${address} 👉🏻 Latitude: ${lat}, Longitude: ${lon}`
  );
+ fetchWeather(parseFloat(lat), parseFloat(lon));
+
 if (inputRef.current) {
 inputRef.current.value = '';
  }
