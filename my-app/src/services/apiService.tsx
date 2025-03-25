@@ -1,12 +1,20 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_BASE_URL = 'http://localhost:8080'; 
+const baseURL = process.env.REACT_APP_TRAFFIC_BASE_URL;
+// console.log("Base URL:", process.env.REACT_APP_TRAFFIC_BASE_URL);
 
-export const fetchTrafficUpdatesData = async () => {
+export const fetchTrafficUpdatesData = async (
+  latitude: number,
+  longitude: number
+) => {
   try {
-    const response = await axios.get(
-      `${baseURL}/traffic-updates`
-    );
+    // console.log(
+    //   `Requesting: ${baseURL}/traffic-situations?latitude=${latitude}&longitude=${longitude}`
+    // );
+    // console.log("Sending request from apiService:", longitude, latitude);
+    const response = await axios.get(`${baseURL}/traffic-situations`, {
+      params: { longitude, latitude },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching traffic data:", error);

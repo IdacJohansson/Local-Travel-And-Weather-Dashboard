@@ -1,3 +1,0 @@
-# Ignore all .env files, even inside subdirectories
-**/.env
-/node_modules
