@@ -6,6 +6,8 @@ import styles from "./Home.module.css";
 import GetGeolocation from "../components/GetGeolocation/Geolocation";
 import OptionalComponent from "../components/OptionalComponent/OptionalComponent";
 import { useLocationStore } from "../store/useLocationStore";
+import { Link } from "react-router-dom"; // Add this import
+
 
 const Home: React.FC = () => {
 // NOT IN USE
@@ -37,18 +39,19 @@ const { location } = useLocationStore();
       {/* <SearchBox />  NOT IN USE*/} 
       {/* <button onClick={handleLocation}>Get Weather</button> NOT IN USE */}
 
-      <div className={styles.sectionTwo}>
-        <TransportDepartures />
-        {/* Now Weather uses lat/lon NOT IN USE*/}
-        {/* <Weather lat={lat} lon={lon} NOT IN USE/> */}
-        <Weather lat={location?.latitude} lon={location?.longitude} />
-      </div>
-
       <div className={styles.sectionThree}>
         <OptionalComponent title="PÅVERKAN" />
         <TrafficUpdates title="TRAFIK HÄNDELSER" />
       </div>
+
+      <div className={styles.navigateButton}>
+       <Link to="/departures">
+        <button className="p-3 bg-blue-500 text-white rounded-md">
+          View Transport Departures
+        </button>
+       </Link>
     </div>
+  </div>
   );
 };
 
