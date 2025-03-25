@@ -1,9 +1,12 @@
 const express = require("express");
 const axios = require("axios");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const app = express();
 const cors = require("cors");
+const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
+console.log("Using API Key:", RESROBOT_API_KEY);
+
 
 app.use(cors());
 
@@ -57,6 +60,61 @@ app.get("/traffic-situations", async (req, res) => {
     res.status(500).send("Failed fetching data");
   }
 });
+
+app.get("/api/departures", async (req, res) => {
+  const { lat, lng } = req.query;
+  console.log(`Received request with lat: ${lat}, lng: ${lng}`); // Debugging
+
+  if (!lat || !lng) {
+    console.error("Missing latitude or longitude in request");
+    return res.status(400).json({ error: "Latitude and Longitude are required" });
+  }
+
+  try {
+    // Fetch nearby station data from ResRobot API
+    const stationResponse = await axios.get(
+      `https://api.resrobot.se/v2.1/location.nearbystops?format=json&originCoordLat=${lat}&originCoordLong=${lng}&maxNo=1&accessId=${RESROBOT_API_KEY}`
+    );
+    
+    console.log("Station response:", stationResponse.data); // Debugging
+
+    if (!stationResponse.data.stopLocationOrCoordLocation) {
+      throw new Error("Invalid station response from ResRobot API");
+    }
+
+    const station = stationResponse.data.stopLocationOrCoordLocation[0]?.StopLocation;
+    if (!station || !station.extId) {
+      throw new Error("No valid station found");
+    }
+
+    const stationId = station.extId;
+    const stationName = station.name;
+
+    // Fetch departures using the station ID
+    const departuresResponse = await axios.get(
+      `https://api.resrobot.se/v2.1/departureBoard?format=json&id=${stationId}&maxJourneys=10&accessId=${RESROBOT_API_KEY}`
+    );
+
+    console.log("Departures response:", departuresResponse.data); // Debugging
+
+    if (!departuresResponse.data.Departure) {
+      throw new Error("No departures found");
+    }
+
+    const departures = departuresResponse.data.Departure.map((dep) => ({
+      time: dep.time,
+      destination: dep.direction,
+      type: dep.ProductAtStop?.catOut || "Unknown",
+      route: dep.name || "Unknown",
+    }));
+
+    res.json({ station: stationName, departures });
+  } catch (error) {
+    console.error("Error fetching departures:", error.message);
+    res.status(500).json({ error: "Failed to fetch transport departures" });
+  }
+});
+
 
 app.listen(TRAFFIC_PORT, () => {
   console.log(`Server is running on port: ${TRAFFIC_PORT}`);
