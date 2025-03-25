@@ -1,14 +1,11 @@
 const express = require("express");
 const axios = require("axios");
+require("dotenv").config({ path: "../.env" });
 
 const app = express();
-
 const cors = require("cors");
-const corsOptions = {
-  origin: ["http://localhost:3000"],
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 const apiKey = (process.env.REACT_APP_API_KEY =
   "4581b803513643bd987a303e7049d864");
