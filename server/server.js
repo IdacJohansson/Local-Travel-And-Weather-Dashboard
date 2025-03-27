@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const app = express();
 const cors = require("cors");
-const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
 
 app.use(cors());
 
