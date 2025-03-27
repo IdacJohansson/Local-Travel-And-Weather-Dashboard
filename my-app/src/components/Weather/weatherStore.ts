@@ -23,7 +23,8 @@ export const useWeatherStore = create<WeatherState>((set) => ({
   fetchWeather: async (lat: number, lon: number) => {  
     set({ loading: true, error: null });
 
-    const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+    // const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+    const API_KEY = "b4d8b88667fa3e8036fe8543f9bf3902";
     console.log("🔑 Loaded API Key:", API_KEY);
 
     const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";

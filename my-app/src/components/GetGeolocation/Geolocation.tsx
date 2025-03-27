@@ -4,18 +4,17 @@ import { useTrafficStore } from "../../store/useTrafficStore";
 import { useLocationStore } from "../../store/useLocationStore";
 
 const GeolocationApp: React.FC = () => {
-  const { fetchWeather } = useWeatherStore(); // add
+  const { fetchWeather } = useWeatherStore();
   const { location, address, setLocation, setAddress } = useLocationStore();
   const { fetchTrafficUpdates } = useTrafficStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (location) {
-      // console.log("Location updated, fetching traffic updates...");
       fetchTrafficUpdates();
-      fetchWeather(location.latitude, location.longitude); // add
+      fetchWeather(location.latitude, location.longitude);
     }
-  }, [location, fetchTrafficUpdates, fetchWeather]); // added fetchTrafficUpdates and fetchWeather
+  }, [location, fetchTrafficUpdates, fetchWeather]);
 
   const getLocation = async () => {
     if (address.trim() === "") {
@@ -24,7 +23,7 @@ const GeolocationApp: React.FC = () => {
           ({ coords: { latitude, longitude } }) => {
             setLocation({ latitude, longitude });
             fetchTrafficUpdates();
-            fetchWeather(latitude, longitude); // add
+            fetchWeather(latitude, longitude);
           },
           () => console.error("Unable to retrieve location.")
         );
@@ -47,7 +46,7 @@ const GeolocationApp: React.FC = () => {
           });
           setAddress("");
           fetchTrafficUpdates();
-          fetchWeather(lat, lon); // add
+          fetchWeather(lat, lon);
         } else {
           console.error("Location not found for address:", address);
         }
@@ -57,100 +56,29 @@ const GeolocationApp: React.FC = () => {
     }
   };
 
-  // REPLACED WITH useLocationStore
-
-  // const [location, setLocation] = useState<string>('');
-  //  const [address, setAddress] = useState<string>('');
-  //  const inputRef = useRef<HTMLInputElement>(null);
-
-  //  const getLocation = async () => {
-  //   if (address.trim() === '') {
-  //  if (navigator.geolocation) {
-  //  navigator.geolocation.getCurrentPosition(
-  //   (position) => {
-  //  const latitude = position.coords.latitude;
-  //  const longitude = position.coords.longitude;
-
-  //  setLocation(`Latitude: ${latitude}, Longitude: ${longitude}`);
-  //  fetchWeather(latitude, longitude);
-  //   },
-  //   () => {
-  //  setLocation('Unable to retrieve location.');
-  //   }
-  //   );
-  // } else {
-  //   setLocation('Geolocation is not supported by this browser.');
-  //   }
-  //   } else {
-  //  try {
-  //  const response = await fetch(
-  //  `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-  //  address
-  //  )}`
-  //   );
-  //   const data = await response.json();
-
-  //  if (data.length > 0) {
-  // const { lat, lon } = data[0];
-  // setLocation(
-  // `Your Location is ${address} 👉🏻 Latitude: ${lat}, Longitude: ${lon}`
-  //  );
-  //  fetchWeather(parseFloat(lat), parseFloat(lon));
-
-  // if (inputRef.current) {
-  // inputRef.current.value = '';
-  //  }
-  // setAddress('');
-  //  } else {
-  // setLocation('Location not found.');
-  //  }
-  // } catch {
-  //  setLocation('Error fetching location.');
-  //  }
-  //  }
-  //  };
-
-  //  return (
-  //   <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 bg-light text-center p-4">
-
-  //   {/* Search Input with Button */}
-  //  <div
-  //  className="input-group mb-3"
-  //  style={{ maxWidth: '500px', width: '100%' }}
-  //  >
-  //   <input
-  //  ref={inputRef}
-  // type="text"
-  // placeholder="Search for a location..."
-  // value={address}
-  // onChange={(e) => setAddress(e.target.value)}
-  // className="form-control border-primary shadow-sm"
-  // />
-  // <button onClick={getLocation} className="mt-3 btn btn-primary">
-  //  Get Location
-  // </button>
-  // </div>
-  // {/* Display Location */}
-  // <p className="mt-3">{location}</p>
-  // </div>
-  //  );
-
   return (
-    <div>
+    <div className="bg-gray-200 text-black rounded-2xl p-4 w-[500px] mx-auto shadow-lg">
       <input
         ref={inputRef}
         type="text"
         placeholder="Search for a location..."
         value={address}
         onChange={(e) => setAddress(e.target.value)}
+        className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button onClick={getLocation}>Get Location</button>
-      <p>
+      <button
+        onClick={getLocation}
+        className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+      >
+        Get Location
+      </button>
+      <p className="mt-4 text-center text-black">
         {location
           ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
           : "No location available"}
       </p>
     </div>
+      
   );
 };
 export default GeolocationApp;

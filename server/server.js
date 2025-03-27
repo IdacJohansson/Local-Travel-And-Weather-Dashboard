@@ -5,19 +5,13 @@ require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
-//console.log("Using API Key:", RESROBOT_API_KEY);
-
 
 app.use(cors());
 
-// const apiKey = process.env.TRAFFIC_API_KEY;
-// const apiUrl = process.env.TRAFFIC_API_URL;
-// const TRAFFIC_PORT = process.env.TRAFFIC_PORT;
-
-TRAFFIC_API_KEY = "4581b803513643bd987a303e7049d864";
-TRAFFIC_API_URL = "https://api.trafikinfo.trafikverket.se/v2/data.json";
-TRAFFIC_PORT = 8080;
-DEPARTURES_API_URL = "https://api.trafikinfo.trafikverket.se/v2/data.xml";
+const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
+const TRAFFIC_API_KEY = process.env.TRAFFIC_API_KEY;
+const TRAFFIC_API_URL = process.env.TRAFFIC_API_URL;
+const TRAFFIC_PORT = process.env.TRAFFIC_PORT;
 
 // route logic for traffic situations
 
