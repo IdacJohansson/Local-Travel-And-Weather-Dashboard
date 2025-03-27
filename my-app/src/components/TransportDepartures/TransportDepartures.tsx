@@ -57,13 +57,13 @@ const TransportDepartures: React.FC = () => {
   
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/departures?lat=${lat}&lng=${lng}`  // <-- UPDATED PORT
+        `http://localhost:8080/api/departures?lat=${lat}&lng=${lng}` 
       );
-      console.log("API Response:", response.data); // Debugging
+      console.log("API Response:", response.data); 
       setStationName(response.data.station);
       setDepartures(response.data.departures);
     } catch (err) {
-      console.error("Error fetching departures:", err);  // Log full error details
+      console.error("Error fetching departures:", err);  
       setError("Failed to load transport data");
     } finally {
       setIsLoading(false);
