@@ -5,7 +5,7 @@ require("dotenv").config();
 const app = express();
 const cors = require("cors");
 const RESROBOT_API_KEY = process.env.RESROBOT_API_KEY;
-console.log("Using API Key:", RESROBOT_API_KEY);
+//console.log("Using API Key:", RESROBOT_API_KEY);
 
 
 app.use(cors());
@@ -63,7 +63,7 @@ app.get("/traffic-situations", async (req, res) => {
 
 app.get("/api/departures", async (req, res) => {
   const { lat, lng } = req.query;
-  console.log(`Received request with lat: ${lat}, lng: ${lng}`); // Debugging
+  console.log(`Received request with lat: ${lat}, lng: ${lng}`); 
 
   if (!lat || !lng) {
     console.error("Missing latitude or longitude in request");
@@ -71,12 +71,12 @@ app.get("/api/departures", async (req, res) => {
   }
 
   try {
-    // Fetch nearby station data from ResRobot API
+   
     const stationResponse = await axios.get(
       `https://api.resrobot.se/v2.1/location.nearbystops?format=json&originCoordLat=${lat}&originCoordLong=${lng}&maxNo=1&accessId=${RESROBOT_API_KEY}`
     );
     
-    console.log("Station response:", stationResponse.data); // Debugging
+    console.log("Station response:", stationResponse.data); 
 
     if (!stationResponse.data.stopLocationOrCoordLocation) {
       throw new Error("Invalid station response from ResRobot API");
@@ -90,12 +90,12 @@ app.get("/api/departures", async (req, res) => {
     const stationId = station.extId;
     const stationName = station.name;
 
-    // Fetch departures using the station ID
+  
     const departuresResponse = await axios.get(
       `https://api.resrobot.se/v2.1/departureBoard?format=json&id=${stationId}&maxJourneys=10&accessId=${RESROBOT_API_KEY}`
     );
 
-    console.log("Departures response:", departuresResponse.data); // Debugging
+    console.log("Departures response:", departuresResponse.data); 
 
     if (!departuresResponse.data.Departure) {
       throw new Error("No departures found");
