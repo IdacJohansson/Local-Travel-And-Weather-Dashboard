@@ -4,6 +4,7 @@ import { useLocationStore } from "../../store/useLocationStore";
 
 import styles from "../TrafficUpdates/TrafficUpdates.module.css";
 import TrafficImage from "../TrafficImage";
+import CarImage from "../../assets/white-car.png";
 
 type CardProps = {
   title: string;
@@ -16,7 +17,6 @@ const TrafficUpdates = ({ title }: CardProps) => {
 
   useEffect(() => {
     if (location) {
-      console.log("Location is set, fetching traffic updates...", location);
       fetchTrafficUpdates();
     }
   }, [location]);
@@ -25,16 +25,16 @@ const TrafficUpdates = ({ title }: CardProps) => {
     <div>
       {trafficUpdates.length > 0 ? (
         <div
-          className={`bg-black text-black rounded-2xl p-4 flex gap-4 w-[1000px] h-[400px] ${styles.sectionThree}`}
+          className={`bg-raisinBlack text-white rounded-2xl flex w-[1000px] h-[400px] ${styles.sectionThree}`}
         >
           <div className="flex w-full">
-            <div className="flex-1 bg-gray-200 text-xs p-4">
-              <h2 className="text-lg text-center text-black font-bold mb-4">
+            <div className="flex-1 text-xs p-4">
+              <h2 className="text-lg text-center text-white font-bold">
                 {title}
               </h2>
               {trafficUpdates.map((update, index) => (
-                <div key={index} className="mb-2 mt-2 pb-2">
-                  <div className="bg-white flex justify-between items-center h-8 px-4">
+                <div key={index} className="mb-2 mt-5 pb-2">
+                  <div className="bg-onyx flex justify-between items-center h-8 px-4">
                     <p className="font-bold">{update.MessageCode}</p>
                     <div className="flex space-x-4 gap-4">
                       <p className={getSeverityColor(update.SeverityText)}>
@@ -55,19 +55,21 @@ const TrafficUpdates = ({ title }: CardProps) => {
                 </div>
               ))}
             </div>
-            <div className="bg-teal-300 p-4 flex justify-center items-center w-1/3">
+            <div className="bg-onyx rounded-r-2xl p-4 flex justify-center items-center w-1/4">
               <TrafficImage />
             </div>
           </div>
         </div>
       ) : (
-        <div className="bg-black text-black rounded-2xl p-4 flex gap-4 w-[1000px] h-[350px]">
-          <div className="flex-1 bg-gray-200 p-4 flex justify-center items-center">
-            <div className="mb-4 border-b pb-2">
+        <div className="bg-raisinBlack text-white rounded-2xl p-4 flex gap-4 w-[1000px] h-[400px]">
+          <div className="flex-1 bg-onyx p-2 rounded-2xl flex justify-center items-center">
+            <div className="mb-4 pb-2">
               <div className="flex justify-center items-center h-20 content-center">
-                <p className="text-xl font-bold mb-4 animate-bounce">
-                  SÖK EFTER TRAFIK HÄNDELSER!
-                </p>
+                <img
+                  className="w-1/2 animate-pulse"
+                  src={CarImage}
+                  alt="car-image"
+                />
               </div>
             </div>
           </div>

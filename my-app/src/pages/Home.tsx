@@ -4,53 +4,45 @@ import TrafficUpdates from "../components/TrafficUpdates/TrafficUpdates";
 import styles from "./Home.module.css";
 import GetGeolocation from "../components/GetGeolocation/Geolocation";
 import OptionalComponent from "../components/OptionalComponent/OptionalComponent";
-import { useLocationStore } from "../store/useLocationStore";
 import { Link } from "react-router-dom"; // Add this import
+import Logo from "../assets/logo-map-pin.png";
 
 const Home: React.FC = () => {
   const [lat, setLat] = useState<number | undefined>(undefined);
   const [lon, setLon] = useState<number | undefined>(undefined);
-  const { location } = useLocationStore();
-
-  // NOT IN USE
-  // const handleLocation = () => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       setLat(position.coords.latitude);
-  //       setLon(position.coords.longitude);
-  //     },
-  //     (err) => {
-  //       console.error("Error fetching location:", err);
-  //     }
-  //   );
-  // };
 
   return (
     <div className={styles.main}>
-      <div className="bg-black text-white flex items-center p-4 shadow-lg w-full justify-between">
-        <p className="text-xl font-bold">Logo</p>
-        <h1 className="text-2xl font-semibold text-center flex-1">
-          Local Travel & Weather Dashboard
-        </h1>
-      </div>
-      {/* <button onClick={handleLocation}>Get Weather</button> NOT IN USE */}
-      {/* <Weather lat={location?.latitude} lon={location?.longitude} /> */}
+      <header className="bg-black text-white flex flex-col items-center p-4 shadow-lg w-full h-[150px]">
+        <div className="flex w-full justify-between">
+          <img className="h-[50px] w-[30px] ml-2" src={Logo} alt="" />
+          <h1 className="text-4xl font-semibold text-center flex-1 mr-5">
+            Local Travel & Weather Dashboard
+          </h1>
+        </div>
+        <div className="mt-4 w-full flex justify-center">
+          <GetGeolocation />
+        </div>
+      </header>
 
-      <div className="flex justify-center items-center gap-8 p-5">
-        <GetGeolocation />
+      <div className={styles.sectionTwo}>
         <div className="flex justify-center items-center">
-          <Link to="/departures">
-            <button className="p-3 bg-blue-500 text-white rounded-md">
-              View Transport Departures
-            </button>
-          </Link>
+          <div className="bg-raisinBlack text-black rounded-2xl p-4 flex gap-4 w-[860px] h-[300px]">
+            <div className="flex flex-col gap-2 items-center justify-center w-[830px] h-[270px]">
+              <Link to="/departures">
+                <button className="p-3 bg-onyx hover:bg-gray-500 transition text-white rounded-md shadow-lg">
+                  View Transport Departures
+                </button>
+              </Link>
+            </div>
+          </div>
         </div>
         <Weather lat={lat} lon={lon} />
       </div>
 
       <div className={styles.sectionThree}>
-        <OptionalComponent title="PÅVERKAN" />
-        <TrafficUpdates title="TRAFIK HÄNDELSER" />
+        <OptionalComponent title="IMPACT" />
+        <TrafficUpdates title="TRAFIC INCIDENTS" />
       </div>
     </div>
   );
