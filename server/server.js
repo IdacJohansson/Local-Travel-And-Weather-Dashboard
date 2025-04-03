@@ -28,8 +28,8 @@ app.get("/traffic-situations", async (req, res) => {
   <QUERY objecttype="Situation" schemaversion="1" limit="5">
     <FILTER>
     <NEAR name="Deviation.Geometry.WGS84" value="${longitude} ${latitude}" />
-    <LT name="Deviation.CreationTime" value="2025-12-31T23:59:59Z" />
-     <GT name="Deviation.CreationTime" value="2025-01-01T00:00:00Z" />
+     <LT name="Deviation.CreationTime" value="$now" />
+     <GT name="Deviation.CreationTime" value="$dateadd(-7.00:00:00)" />
     </FILTER>
     <INCLUDE>Deviation.CreationTime</INCLUDE>
     <INCLUDE>Deviation.Geometry.WGS84</INCLUDE>
@@ -46,7 +46,6 @@ app.get("/traffic-situations", async (req, res) => {
         "Content-Type": "text/xml",
       },
     });
-    console.log("Response traffic data:", response.data);
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching traffic situations:", error);
@@ -56,26 +55,28 @@ app.get("/traffic-situations", async (req, res) => {
 
 app.get("/api/departures", async (req, res) => {
   const { lat, lng } = req.query;
-  console.log(`Received request with lat: ${lat}, lng: ${lng}`); 
+  console.log(`Received request with lat: ${lat}, lng: ${lng}`);
 
   if (!lat || !lng) {
     console.error("Missing latitude or longitude in request");
-    return res.status(400).json({ error: "Latitude and Longitude are required" });
+    return res
+      .status(400)
+      .json({ error: "Latitude and Longitude are required" });
   }
 
   try {
-   
     const stationResponse = await axios.get(
       `https://api.resrobot.se/v2.1/location.nearbystops?format=json&originCoordLat=${lat}&originCoordLong=${lng}&maxNo=1&accessId=${RESROBOT_API_KEY}`
     );
-    
-    console.log("Station response:", stationResponse.data); 
+
+    console.log("Station response:", stationResponse.data);
 
     if (!stationResponse.data.stopLocationOrCoordLocation) {
       throw new Error("Invalid station response from ResRobot API");
     }
 
-    const station = stationResponse.data.stopLocationOrCoordLocation[0]?.StopLocation;
+    const station =
+      stationResponse.data.stopLocationOrCoordLocation[0]?.StopLocation;
     if (!station || !station.extId) {
       throw new Error("No valid station found");
     }
@@ -83,12 +84,11 @@ app.get("/api/departures", async (req, res) => {
     const stationId = station.extId;
     const stationName = station.name;
 
-  
     const departuresResponse = await axios.get(
       `https://api.resrobot.se/v2.1/departureBoard?format=json&id=${stationId}&maxJourneys=10&accessId=${RESROBOT_API_KEY}`
     );
 
-    console.log("Departures response:", departuresResponse.data); 
+    console.log("Departures response:", departuresResponse.data);
 
     if (!departuresResponse.data.Departure) {
       throw new Error("No departures found");
@@ -107,7 +107,6 @@ app.get("/api/departures", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch transport departures" });
   }
 });
-
 
 app.listen(TRAFFIC_PORT, () => {
   console.log(`Server is running on port: ${TRAFFIC_PORT}`);
