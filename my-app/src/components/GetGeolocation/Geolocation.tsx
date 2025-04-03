@@ -57,28 +57,24 @@ const GeolocationApp: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-200 text-black rounded-2xl p-4 w-[500px] mx-auto shadow-lg">
-      <input
-        ref={inputRef}
-        type="text"
-        placeholder="Search for a location..."
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        className="w-full p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        onClick={getLocation}
-        className="mt-2 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
-      >
-        Get Location
-      </button>
-      <p className="mt-4 text-center text-black">
-        {location
-          ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
-          : "No location available"}
-      </p>
+    <div className="text-black w-[500px] mt-4">
+      <div className="flex items-center content-center gap-1">
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Search for a location..."
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          className="w-[400px] p-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={getLocation}
+          className="w-[180px] p-2 bg-onyx text-white rounded-lg hover:bg-raisinBlack transition"
+        >
+          Get Location
+        </button>
+      </div>
     </div>
-      
   );
 };
 export default GeolocationApp;

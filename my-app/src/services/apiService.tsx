@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080";
+const baseURL = process.env.REACT_APP_TRAFFIC_BASE_URL;
 
 export const fetchTrafficUpdatesData = async (
   latitude: number,

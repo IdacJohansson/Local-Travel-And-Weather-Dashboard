@@ -16,7 +16,6 @@ export const useLocationStore = create<LocationState>((set) => ({
   location: null,
   address: "",
   setLocation: (location) => {
-    // console.log("Location in useLocationStore:", location);
     set({ location });
   },
   setAddress: (address) => {
