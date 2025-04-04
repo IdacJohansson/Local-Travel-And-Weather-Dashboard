@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useWeatherStore } from "./weatherStore";
 import WeatherImage from "../../assets/white-lightning.png";
 
-console.log("API Key:", process.env.REACT_APP_WEATHER_API_KEY);
 
 interface WeatherProps {
   lat?: number;
@@ -66,9 +65,6 @@ const Weather: React.FC<WeatherProps> = ({ lat, lon }) => {
           <div className="flex-1 bg-onyx flex justify-center items-center h-[250px] rounded-2xl mt-2">
             <div className="">
               <div className="flex justify-center items-center content-center">
-                {/* <p className="text-xl font-bold animate-bounce border-b ">
-                  WEATHER!
-                </p> */}
                 <img className="w-1/2 animate-pulse" src={WeatherImage} alt="car-image" />
               </div>
             </div>
